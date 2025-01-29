@@ -1,14 +1,11 @@
+// src/routes/welcome.tsx
+import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, onValue } from "firebase/database";
-import { useState, useEffect } from 'react';
-import SitePreviewCard from "~/cardPreview/SitePreviewCard";
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import SitePreviewCard from "./SitePreviewCard";
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCxe06_PvCnsGur9Hiq1LPQgOUrHrpj3jA",
   authDomain: "resumealexandrlyachov.firebaseapp.com",
@@ -23,24 +20,26 @@ const firebaseConfig = {
 interface Post {
   name: string;
   url: string;
+  tags: string[];
 }
 
-export function Welcome() {
+export default function Welcome() {
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getDatabase(app);
   const starCountRef = ref(db, 'posts');
-  const [data, setData] = useState({});
+  const [data, setData] = useState<Record<string, Post>>({});
 
   useEffect(() => {
-    onValue(starCountRef, (snapshot) => {
+    const unsubscribe = onValue(starCountRef, (snapshot) => {
       const posts = snapshot.val();
-      setData(posts);
-      console.log(data);
+      setData(posts || {});
+      console.log(posts);
     });
+
+    // Очистка подписки при размонтировании компонента
+    return () => unsubscribe();
   }, [starCountRef]);
-
-
 
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
@@ -50,10 +49,15 @@ export function Welcome() {
             Мои проекты
           </p>
           {Object.keys(data).length > 0 && (
-            <div className="flex">
-              
+            <div className="flex flex-wrap gap-4">
               {Object.keys(data).map((key) => (
-                <SitePreviewCard title={data[key].Name} description="NEw" siteUrl={data[key].URL} tags={data[key].Tags} />
+                <SitePreviewCard
+                  key={key}
+                  title={data[key].Name}
+                  description="New"
+                  siteUrl={data[key].URL}
+                  tags={data[key].Tags}
+                />
               ))}
             </div>
           )}

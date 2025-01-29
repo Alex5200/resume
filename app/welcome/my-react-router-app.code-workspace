@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "my-react-router-app",
+			"path": "../.."
+		},
+		{
+			"name": ".firebase",
+			"path": "../../../../resume/.firebase"
+		}
+	],
+	"settings": {}
+}
