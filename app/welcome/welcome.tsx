@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useState, useEffect } from 'react';
+import SitePreviewCard from "~/cardPreview/SitePreviewCard";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -35,11 +36,11 @@ export function Welcome() {
     onValue(starCountRef, (snapshot) => {
       const posts = snapshot.val();
       setData(posts);
+      console.log(data);
     });
   }, [starCountRef]);
 
-  console.log(db)
-  console.log(analytics)
+
 
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
@@ -50,11 +51,9 @@ export function Welcome() {
           </p>
           {Object.keys(data).length > 0 && (
             <div className="flex">
+              
               {Object.keys(data).map((key) => (
-                <div key={key} className="flex flex-col items-center gap-4">
-                  <p className="text-gray-700 dark:text-gray-200">Name {data[key].Name}</p>
-                  <p className="text-gray-700 dark:text-gray-200">URL {data[key].URL}</p>
-                </div>
+                <SitePreviewCard title={data[key].Name} description="NEw" siteUrl={data[key].URL} tags={data[key].Tags} />
               ))}
             </div>
           )}
