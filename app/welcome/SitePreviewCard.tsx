@@ -1,9 +1,11 @@
 import React from 'react';
 interface SitePreviewCardProps {
+  classSet: string;
   title: string;
   description: string;
   siteUrl: string;
   tags: Object;
+  img: string;
 }
 
 const isValidUrl = (url: string): boolean => {
@@ -15,7 +17,7 @@ const isValidUrl = (url: string): boolean => {
   }
 };
 
-const SitePreviewCard: React.FC<SitePreviewCardProps> = ({ title, description, siteUrl, tags }) => {
+const SitePreviewCard: React.FC<SitePreviewCardProps> = ({ classSet, title, description, siteUrl, tags, img }) => {
   // Проверяем валидность URL
 // Создаем безопасный URL для iframe
 
@@ -34,22 +36,20 @@ const SitePreviewCard: React.FC<SitePreviewCardProps> = ({ title, description, s
 
   
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
-      <div className="w-full h-64">
-        {validUrlsSite()}
+    <a href={siteUrl} className={classSet} target="_blank">
+      <div className="w-full h-64 p-4">
+        <img alt='logo pr' className='pointer-events-none'  src={img}/>
       </div>
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{title}</div>
-        <p className="text-gray-700 text-base mb-4">
-          {description}
-        </p>
+      <div className="px-6 py-4 text-black">
+        <div className="font-bold text-xl mb-2 text-black ">{title}</div>
+     
       </div>
       <div className="px-6 pt-4 pb-2">
           {Object.keys(tags).map((key) => (
             <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{tags[key]}</span>
           ))}
       </div>
-    </div>
+    </a>
   );
 };
 

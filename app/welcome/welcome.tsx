@@ -18,9 +18,10 @@ const firebaseConfig = {
 };
 
 interface Post {
-  name: string;
-  url: string;
-  tags: string[];
+  Name: string;
+  URL: string;
+  Tags: string[];
+  Img: string;
 }
 
 export default function Welcome() {
@@ -44,19 +45,21 @@ export default function Welcome() {
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
-        <div className="max-w-[300px] w-full space-y-6 px-4">
+        <div className="max-w-[900px] w-full space-y-6 px-4">
           <p className="leading-6 text-gray-700 dark:text-gray-200 text-center">
             Мои проекты
           </p>
           {Object.keys(data).length > 0 && (
-            <div className="flex flex-wrap gap-4">
+            <div className=" flex flex-wrap gap-12 ">
               {Object.keys(data).map((key) => (
                 <SitePreviewCard
+                  classSet={"mx-auto max-w-[300px] rounded overflow-hidden shadow-lg bg-white"}
                   key={key}
                   title={data[key].Name}
                   description="New"
                   siteUrl={data[key].URL}
                   tags={data[key].Tags}
+                  img={data[key].Img}
                 />
               ))}
             </div>

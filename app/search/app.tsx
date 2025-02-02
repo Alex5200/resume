@@ -101,15 +101,17 @@ export default function Search() {
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap gap-4 mt-8">
+        <div className="flex  flex-wrap gap-4 mt-8">
           {filteredPosts.length > 0 ? (
             filteredPosts.map(post => (
               <SitePreviewCard
+                classSet="mx-auto max-w-[300px] rounded overflow-hidden shadow-lg bg-white"
                 key={post.Name}
                 title={post.Name}
                 description="New"
                 siteUrl={post.URL}
                 tags={post.Tags}
+                img={post.Img}
               />
             ))
           ) : (
